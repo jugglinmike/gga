@@ -5,6 +5,7 @@ var chrome = require('selenium-webdriver/chrome');
 var chromeService = new chrome.ServiceBuilder(chromeDriver.path);
 var port = process.env.__TEST_PORT;
 
+var selectors = require('./selectors.json');
 var hasClass = require('./util/has-class');
 var filter = require('./util/filter');
 
@@ -49,7 +50,7 @@ describe('homepage', function() {
     });
 
     it('lists all members from both chambers when the user clicks on the "members" element', function() {
-      return driver.findElements(webdriver.By.css('.member'))
+      return driver.findElements(webdriver.By.css(selectors.memberThumbnail))
         .then(function(memberEls) {
           assert.equal(memberEls.length, 236);
         });
