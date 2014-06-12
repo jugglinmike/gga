@@ -11,51 +11,8 @@
   <script src="spec/lib/jasmine-jquery.js"></script>
   <script src="spec/lib/sinon.js"></script>
 
-  <!-- include source files here... -->
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-  <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
-  <script src="src/scripts/lib/jquery-scrolltofixed-min.js"></script>
-  <script src="//underscorejs.org/underscore-min.js"></script>
-  <script src="src/scripts/lib/underscore.string.min.js"></script>
-  <script src="src/scripts/lib/backbone.js"></script>
-  <script src="src/scripts/lib/backbone.marionette.js"></script>
-  <script src="src/scripts/app.js"></script>
-  <script src="src/scripts/entities/common.js"></script>
-  <script src="src/scripts/entities/member.js"></script>
-  <script src="src/scripts/entities/top_contributors.js"></script>
-  <script src="src/scripts/entities/watched_bill.js"></script>
-  <script src="src/scripts/apps/members/members_app.js"></script>
-  <script src="src/scripts/apps/members/list/list_view.js"></script>
-  <script src="src/scripts/apps/members/list/list_controller.js"></script>
-  <script src="src/scripts/apps/members/show/show_view.js"></script>
-  <script src="src/scripts/apps/members/show/show_controller.js"></script>
-  <script src="src/scripts/apps/watched_bills/watched_bills_app.js"></script>
-  <script src="src/scripts/apps/watched_bills/list/list_view.js"></script>
-  <script src="src/scripts/apps/watched_bills/list/list_controller.js"></script>
-  <script src="src/scripts/apps/watched_bills/show/show_view.js"></script>
-  <script src="src/scripts/apps/watched_bills/show/show_controller.js"></script>
-<!--
-  <script src="src/scripts/views/app.js"></script>
--->
+  <script src="src/scripts/lib/require.js"></script>
 
-  <!-- include spec files here... -->
-  <script src="spec/SpecHelper.js"></script>
-  <script src="spec/application_spec.js"></script>
-  <script src="spec/entities_member_model_spec.js"></script>
-  <script src="spec/entities_member_bill_model_spec.js"></script>
-  <script src="spec/entities_member_bills_collection_spec.js"></script>
-  <script src="spec/entities_watchedbill_model_spec.js"></script>
-  <script src="spec/entities_watchedbill_collection_spec.js"></script>
-  <script src="spec/entities_member_committee_model_spec.js"></script>
-  <script src="spec/entities_member_committees_collection_spec.js"></script>
-  <script src="spec/entities_members_collection_spec.js"></script>
-  <script src="spec/entities_top_contributor_model_spec.js"></script>
-  <script src="spec/entities_top_contributors_collection_spec.js"></script>
-<!--
-  <script src="spec/memberModelSpec.js"></script>
-  <script src="spec/membersCollectionSpec.js"></script>
-  <script src="spec/memberViewSpec.js"></script>
--->
   <script type="text/javascript">
     (function() {
       var jasmineEnv = jasmine.getEnv();
@@ -69,19 +26,15 @@
         return htmlReporter.specFilter(spec);
       };
 
-      var currentWindowOnload = window.onload;
+      define("bootstrap", function() {});
 
-      window.onload = function() {
-        if (currentWindowOnload) {
-          currentWindowOnload();
-        }
-        execJasmine();
-      };
+      require(['src/scripts/require_main'], function() {
+        require.config({ baseUrl: 'src/scripts' });
 
-      function execJasmine() {
-        jasmineEnv.execute();
-      }
-
+        require(['../../spec/entities_member_bill_model_spec'], function() {
+          jasmineEnv.execute();
+        });
+      });
     })();
   </script>
 

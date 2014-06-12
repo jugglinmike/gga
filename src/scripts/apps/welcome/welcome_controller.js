@@ -1,6 +1,5 @@
-define(["app","apps/welcome/welcome_view"], function(GeneralAssemblyApp, View) {
-  GeneralAssemblyApp.module("WelcomeApp", function(WelcomeApp, GeneralAssemblyApp, Backbone, Marionette, $, _) {
-    WelcomeApp.Controler = {
+define(["./welcome_view"], function(View) {
+    return {
       showWelcome: function() {
         require(["entities/bill","entities/days_left","goog!feeds,1"], function() {
           var welcomeLayout = new View.WelcomeLayout();
