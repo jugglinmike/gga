@@ -127,18 +127,17 @@ describe('homepage', function() {
 
       it('searches for HB1', function() {
         return driver.findElement(webdriver.By.css(selectors.layouts.bills.search.searchform))
-        .then(function(billSearch) {
-          billSearch.click();
-          return billSearch
-          .then(function(billSearch){
-            return billSearch.sendKeys('1');
+          .then(function(billSearch) {
+            return billSearch.click()
+            .then(function(billSearch){
+              return billSearch.sendKeys('1');
+            })
           })
-        })
-        .then(function(){
-          return driver.findElement(webdriver.By.css(selectors.layouts.bills.search.searchbutton))
-          .then(function(button){
-            return button.click();
-          })
+          .then(function(){
+            return driver.findElement(webdriver.By.css(selectors.layouts.bills.search.searchbutton))
+            .then(function(button){
+              return button.click();
+            })
           .then(function(){
             return driver.isElementPresent(webdriver.By.css(selectors.layouts.bills.billpage))
           });
