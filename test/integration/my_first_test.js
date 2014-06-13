@@ -105,7 +105,7 @@ describe('homepage', function() {
     });
   });
 
-  describe.only('bills index', function(){
+  describe('bills index', function(){
     beforeEach(function() {
       return driver.findElement(webdriver.By.css(selectors.nav.bills))
         .then(function(billsElement) {
@@ -124,7 +124,6 @@ describe('homepage', function() {
     });
 
     describe('search bills from bill category page', function(){
-      this.timeout(8000);
 
       it('searches for HB1', function() {
         return driver.findElement(webdriver.By.css(selectors.layouts.bills.search.searchform))
