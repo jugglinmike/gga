@@ -2,8 +2,12 @@ var webdriver = require('selenium-webdriver');
 var assert = require('assert');
 var chromeDriver = require('selenium-chromedriver');
 var chrome = require('selenium-webdriver/chrome');
-var chromeService = new chrome.ServiceBuilder(chromeDriver.path);
 var port = process.env.__TEST_PORT;
+var chromeOptions = new chrome.Options();
+
+chromeOptions.setChromeBinaryPath(chromeDriver.path);
+
+var proxy = require('selenium-webdriver/proxy');
 
 var selectors = require('./selectors.json');
 var hasClass = require('./util/has-class');
@@ -17,7 +21,12 @@ describe('homepage', function() {
 
     this.timeout(timeout);
 
-    driver = chrome.createDriver(null, chromeService.build());
+    driver = new webdriver.Builder()
+      .setChromeOptions(chromeOptions)
+      .withCapabilities(webdriver.Capabilities.chrome())
+      .setProxy(proxy.manual({ http: 'localhost:1337' }))
+      .build();
+
     driver.get('http://localhost:' + port);
     driver.manage().timeouts().implicitlyWait(timeout);
     driver.implicitlyWait = timeout;
