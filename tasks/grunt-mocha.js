@@ -3,10 +3,12 @@ module.exports = function(grunt) {
 
   grunt.config.set('mochaTest' , {
     options: {
-      reporter: 'spec',
-      require: 'test/integration/util/proxy'
+      reporter: 'spec'
     },
-    files: ['test/integration/my_first_test.js']
+    files: [
+      'test/integration/setup.js',
+      'test/integration/my_first_test.js'
+    ]
   });
 
   grunt.loadNpmTasks('grunt-mocha-test');

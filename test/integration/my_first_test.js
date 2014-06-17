@@ -1,47 +1,18 @@
 var webdriver = require('selenium-webdriver');
-var assert = require('assert');
-var chromeDriver = require('selenium-chromedriver');
-var chrome = require('selenium-webdriver/chrome');
-var port = process.env.__TEST_PORT;
-var chromeOptions = new chrome.Options();
 
-chromeOptions.setChromeBinaryPath(chromeDriver.path);
-
-var proxy = require('selenium-webdriver/proxy');
-
-var selectors = require('./selectors.json');
 var hasClass = require('./util/has-class');
 var filter = require('./util/filter');
 
 describe('homepage', function() {
-  var driver;
+  var driver, selectors;
 
-  beforeEach  (function() {
-    var timeout = 5000;
-
-    this.timeout(timeout);
-
-    driver = new webdriver.Builder()
-      .setChromeOptions(chromeOptions)
-      .withCapabilities(webdriver.Capabilities.chrome())
-      .setProxy(proxy.manual({ http: 'localhost:1337' }))
-      .build();
-
-    driver.get('http://localhost:' + port);
-    driver.manage().timeouts().implicitlyWait(timeout);
-    driver.implicitlyWait = timeout;
-
-    return driver.wait(function() {
-      return driver.isElementPresent(webdriver.By.css(selectors.homeHeader));
-    }, 3000);
-  });
-
-  afterEach(function() {
-    return driver.quit();
+  beforeEach(function() {
+    driver = this.driver;
+    selectors = this.selectors;
   });
 
   it('displays the header', function() {
-    return driver.findElement(webdriver.By.css(selectors.homeHeader)).then(function(head) {
+    return this.driver.findElement(webdriver.By.css(selectors.homeHeader)).then(function(head) {
       return head.getText().then(function(headText) {
         assert.equal(headText, 'Georgia Legislative Navigator');
       });
