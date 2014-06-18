@@ -13,7 +13,7 @@ describe('homepage', function() {
   var driver;
 
   beforeEach  (function() {
-    var timeout = 5000;
+    var timeout = 9000;
 
     this.timeout(timeout);
 
@@ -102,6 +102,83 @@ describe('homepage', function() {
           assert.equal(result.republicans, 119);
           assert.equal(result.democrats, 0);
           assert.equal(result.independents, 0);
+        });
+      });
+    });
+  });
+
+  describe('bills index', function() {
+
+    beforeEach(function() {
+      return driver.findElement(webdriver.By.css(selectors.nav.bills))
+        .then(function(billsElement) {
+          return billsElement.click();
+        })
+        .then(function() {
+          return driver.isElementPresent(
+            webdriver.By.css(selectors.layouts.bills.region)
+          );
+        });
+    });
+
+    describe.only('bill search', function() {
+      var billId = '1151';
+      var actionCount = 3;
+      var primaryAuthor = 'Sam Moore';
+
+      it('correctly returns requested house bill', function() {
+        return driver.findElement(
+          webdriver.By.css(selectors.layouts.bills.search.documentType)
+        ).then(function(selectElement) {
+          return selectElement.sendKeys('house bills');
+        }).then(function() {
+          return driver.findElement(
+            webdriver.By.css(selectors.layouts.bills.search.billNumber)
+          );
+        }).then(function(numberInput) {
+          return numberInput.sendKeys(billId)
+            .then(function() {
+              return numberInput.submit();
+            });
+        }).then(function() {
+          return driver.wait(function() {
+            return driver.isElementPresent(
+              webdriver.By.css(selectors.layouts.bill.region)
+            );
+          }, 3000);
+        }).then(function() {
+          return driver.findElement(
+            webdriver.By.css(selectors.layouts.bill.title)
+          );
+        }).then(function(element) {
+          return element.getText();
+        }).then(function(text) {
+          assert(
+            text.indexOf(billId) > -1, 'Expected bill ID present on page.'
+          );
+        });
+      });
+
+      it('does not return house bills when searching senate bills');
+    });
+
+    it('every category displays a positive number of watched bills', function() {
+      var countRe = /\b(\d+)\s*bills?\b/i;
+
+      return driver.findElements(
+        webdriver.By.css(selectors.layouts.bills.categoryThumbnail)
+      ).then(function(elements) {
+        assert.equal(elements.length, 10);
+
+        return webdriver.promise.all(elements.map(function(element) {
+          return element.getText();
+        })).then(function(texts) {
+          texts.forEach(function(text) {
+            var match = text.match(countRe);
+
+            assert(match, 'Displays some number of bills');
+            assert(parseInt(match[0], 10) > 0, 'Displays a positive number of bills');
+          });
         });
       });
     });

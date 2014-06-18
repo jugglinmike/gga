@@ -1,7 +1,8 @@
 {
   "homeHeader": ".home-head",
   "nav": {
-    "members": "#members"
+    "members": "#members",
+    "bills": "#bills"
   },
   "layouts": {
     "members": {
@@ -18,6 +19,18 @@
         "republican": ".Republican",
         "democrat": ".Democrat",
         "independent": ".Independent"
+      }
+    },
+    "bill": {
+      "region": "#bill-region",
+      "title": ".billnumhed"
+    },
+    "bills": {
+      "region": "#bill-category-region",
+      "categoryThumbnail": ".watched-bill",
+      "search": {
+        "billNumber": "#number",
+        "documentType": "#document-type"
       }
     }
   },
