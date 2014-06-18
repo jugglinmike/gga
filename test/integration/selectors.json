@@ -1,0 +1,30 @@
+{
+  "homeHeader": ".home-head",
+  "nav": {
+    "members": "#members"
+  },
+  "layouts": {
+    "members": {
+      "region": "#members-region",
+      "thumbnail": ".member",
+      "filters": {
+        "republicans": "#filter-Republican",
+        "democrats": "#filter-Democrat",
+        "independents": "#filter-Independent",
+        "senate": "#filter-Senate",
+        "house": "#filter-House"
+      },
+      "thumbnails": {
+        "republican": ".Republican",
+        "democrat": ".Democrat",
+        "independent": ".Independent"
+      }
+    },
+    "member": {
+      "region": ".member-detail-row",
+      "accordian": ".ui-accordion-header",
+      "billList": "#bills-list-region"
+    }
+  },
+  "memberThumbnail": ".member"
+}
