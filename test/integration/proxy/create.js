@@ -15,35 +15,37 @@ var replay = require('replay');
 var proxy = httpProxy.createProxyServer({});
 var hostRegexes = {
   app: /localhost/,
-  // Only pass requests for required third-party dependencies through.
+  // JSONP requests to external services must be special-cased if they are to
+  // be successfully cached.
+  jsonp: /(google|herokuapp)\.com/i,
+  // Pass requests for required third-party dependencies through.
   // Non-essential dependencies need not be cached--they can be replaced with
   // any arbitrary hard-coded response.
-  jsonp: /(google|herokuapp)\.com/i,
   requiredThirdParty: /(google|bootstrapcdn)\.com/i,
 };
 
 replay.fixtures = __dirname + '/../fixtures';
 
 module.exports = function() {
-
   var readyDfd = new Deferred();
 
   var app = connect();
 
   app.use(require('./remove-cache-bust')({ paramNames: ['_', 'nocache'] }));
   app.use(require('./rename-jsonp')({ hostRegex: hostRegexes.jsonp }));
-  app.use(function (req, res) {
+  app.use(function (req, res, next) {
     var parts = url.parse(req.url);
 
-
-    if (hostRegexes.app.test(parts.hostname)) {
-      proxy.web(req, res, { target: parts.protocol + '//' + parts.host });
-    } else if (hostRegexes.requiredThirdParty.test(parts.hostname)) {
-      proxy.web(req, res, { target: parts.protocol + '//' + parts.host });
-    } else {
-      // Respond to requests for non-essential dependencies with an empty body.
-      res.end('\n');
+    if (!hostRegexes.app.test(parts.hostname) &&
+      !hostRegexes.requiredThirdParty.test(parts.hostname)) {
+      next();
+      return;
     }
+    proxy.web(req, res, { target: parts.protocol + '//' + parts.host });
+  });
+  app.use(function(req, res) {
+    // Respond to requests for non-essential dependencies with an empty body.
+    res.end('\n');
   });
 
   var server = http.createServer(app);
