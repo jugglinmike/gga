@@ -6,7 +6,7 @@ var port = process.env.__TEST_PORT;
 var chromeOptions = new chrome.Options();
 var proxy = require('selenium-webdriver/proxy');
 
-var createProxy = require('./util/create-proxy');
+var createProxy = require('./proxy/create');
 chromeOptions.setChromeBinaryPath(chromeDriver.path);
 global.assert = assert;
 

@@ -30,17 +30,7 @@ module.exports = function() {
 
   var app = connect();
 
-  app.use(function(req, res, next) {
-    var parts = url.parse(req.url, true);
-
-    // Remove cache busting parameters in order to stabilize requests
-    // TODO: Make configurable
-    delete parts.query._;
-    delete parts.search;
-
-    req.url = url.format(parts);
-    next();
-  });
+  app.use(require('./remove-cache-bust')({ paramNames: ['_', 'nocache'] }));
   app.use(require('./rename-jsonp')({ hostRegex: hostRegexes.jsonp }));
   app.use(function (req, res) {
     var parts = url.parse(req.url);
@@ -49,12 +39,9 @@ module.exports = function() {
     if (hostRegexes.app.test(parts.hostname)) {
       proxy.web(req, res, { target: parts.protocol + '//' + parts.host });
     } else if (hostRegexes.requiredThirdParty.test(parts.hostname)) {
-      console.log('sending\t', req.url);
-      req.on('end', function() { console.log('ending\t', req.url); });
       proxy.web(req, res, { target: parts.protocol + '//' + parts.host });
     } else {
       // Respond to requests for non-essential dependencies with an empty body.
-      console.log('swallowing', req.url);
       res.end('\n');
     }
   });
