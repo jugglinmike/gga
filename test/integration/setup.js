@@ -18,7 +18,7 @@ before(function() {
 
 beforeEach(function() {
   var selectors = this.selectors = require('./selectors.json');
-  var timeout = 8000;
+  var timeout = 20000;
   var proxyAddress = 'localhost:' + this.proxyServer.address().port;
   var driver = this.driver = new webdriver.Builder()
     .setChromeOptions(chromeOptions)
