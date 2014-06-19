@@ -2,8 +2,14 @@
 
 var http = require('http');
 var url = require('url');
+var zlib = require('zlib');
 
 var RenameJsonpStream = require('./rename-jsonp-stream');
+
+var requests = {
+  'http:': require('http').request,
+  'https:': require('https').request
+};
 
 var rewrite = function(loc, options) {
   var parts = url.parse(loc, true);
@@ -33,15 +39,6 @@ var rewrite = function(loc, options) {
     originalName: originalName,
     newName: newName
   };
-};
-
-var zlib = require('zlib');
-var gzip = zlib.createGzip()
-var gunzip = zlib.createGunzip()
-
-var requests = {
-  'http:': require('http').request,
-  'https:': require('https').request
 };
 
 module.exports = function(options) {

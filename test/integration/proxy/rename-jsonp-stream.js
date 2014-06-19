@@ -1,3 +1,18 @@
+/**
+ * A Transform stream that effectively renames the global callback function in
+ * a JSONP response.
+ *
+ * @constructor
+ * @extends stream.Transform
+ *
+ * @param {Object} options
+ * @param {String} options.originalName - Name of the JavaScript callback
+ *                                        function that exists in the global
+ *                                        scope of the target environment.
+ * @param {String} options.newName - Name of the JavaScript callback function
+ *                                   that is referenced in the (un-transformed)
+ *                                   stream.
+ */
 'use strict';
 
 var util = require('util');
