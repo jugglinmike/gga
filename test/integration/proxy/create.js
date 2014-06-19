@@ -21,7 +21,7 @@ var hostRegexes = {
   // Pass requests for required third-party dependencies through.
   // Non-essential dependencies need not be cached--they can be replaced with
   // any arbitrary hard-coded response.
-  requiredThirdParty: /(google|bootstrapcdn)\.com/i,
+  requiredThirdParty: /(google|bootstrapcdn)\.com/i
 };
 
 replay.fixtures = __dirname + '/../fixtures';

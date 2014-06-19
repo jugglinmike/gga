@@ -1,3 +1,5 @@
+'use strict';
+
 var webdriver = require('selenium-webdriver');
 var assert = require('assert');
 var chromeDriver = require('selenium-chromedriver');
@@ -36,7 +38,7 @@ beforeEach(function() {
       return driver.wait(function() {
         return driver.isElementPresent(webdriver.By.css(selectors.homeHeader));
       }, 3000);
-  });
+    });
 });
 
 afterEach(function() {
