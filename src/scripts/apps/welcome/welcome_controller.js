@@ -1,4 +1,4 @@
-define(["app","apps/welcome/welcome_view"], function(GeneralAssemblyApp, View) {
+define(["app","apps/welcome/welcome_view", "common/bills-count-view"], function(GeneralAssemblyApp, View, BillsCountView) {
   "use strict";
 
   GeneralAssemblyApp.module("WelcomeApp", function(WelcomeApp, GeneralAssemblyApp, Backbone, Marionette, $) {
@@ -10,7 +10,7 @@ define(["app","apps/welcome/welcome_view"], function(GeneralAssemblyApp, View) {
           var fetchingDaysLeft = GeneralAssemblyApp.request("days:left");
 
           $.when(fetchingBillsCount, fetchingDaysLeft).done(function(billsCount, daysLeft) {
-            var billsCountView = new GeneralAssemblyApp.Common.View.BillsCountView({
+            var billsCountView = new BillsCountView({
               model: billsCount
             });
 

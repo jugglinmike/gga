@@ -1,11 +1,11 @@
-define(["app","apps/members/show/show_view"], function(GeneralAssemblyApp, View) {
+define(["app","apps/members/show/show_view", "common/loading-view"], function(GeneralAssemblyApp, View, LoadingView) {
   "use strict";
 
   GeneralAssemblyApp.module("MembersApp.Show", function(Show, GeneralAssemblyApp, Backbone, Marionette, $) {
     Show.Controller = {
       showMember: function(id) {
         require(["entities/member","entities/top_contributors"], function() {
-          var loadingView = new GeneralAssemblyApp.Common.View.Loading();
+          var loadingView = new LoadingView();
           GeneralAssemblyApp.mainRegion.show(loadingView);
 
           var fetchingMembers = GeneralAssemblyApp.request("members:member", id);

@@ -1,4 +1,4 @@
-define(["app","apps/watched_bills/list/list_view"], function(GeneralAssemblyApp, View) {
+define(["app","apps/watched_bills/list/list_view", "common/bills-count-view"], function(GeneralAssemblyApp, View, BillsCountView) {
   "use strict";
 
   GeneralAssemblyApp.module("WatchedBillsApp.List", function(List, GeneralAssemblyApp, Backbone, Marionette, $, _) {
@@ -22,7 +22,7 @@ define(["app","apps/watched_bills/list/list_view"], function(GeneralAssemblyApp,
               collection: categories
             });
 
-            var bills_count_view = new GeneralAssemblyApp.Common.View.BillsCountView({
+            var bills_count_view = new BillsCountView({
               model: bills_count,
               className: "jumbotron"
             });

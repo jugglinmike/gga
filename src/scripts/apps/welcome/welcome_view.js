@@ -1,4 +1,4 @@
-define(["app"], function(GeneralAssemblyApp) {
+define(["app", "common/facebook", "common/twitter"], function(GeneralAssemblyApp, facebook, tweet) {
   "use strict";
 
   GeneralAssemblyApp.module("WelcomeApp.View", function(View, GeneralAssemblyApp, Backbone, Marionette, $) {
@@ -43,8 +43,8 @@ define(["app"], function(GeneralAssemblyApp) {
             }
           }
         });
-        GeneralAssemblyApp.Common.facebook(document);
-        GeneralAssemblyApp.Common.tweet(document);
+        facebook(document);
+        tweet(document);
       }
     });
 
