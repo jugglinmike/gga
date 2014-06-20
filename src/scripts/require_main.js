@@ -51,11 +51,8 @@ require.config({
   }
 });
 
-require(["app","jquery-ui","jquery-scrolltofixed","jquery-datatables","datejs","underscore.string", "spin","spin.jquery","tabletop","goog"],
-  function(GeneralAssemblyApp) {
-    "use strict";
+require(["app"], function(GeneralAssemblyApp) {
+  "use strict";
 
-    GeneralAssemblyApp.start();
-  }
-);
-
+  GeneralAssemblyApp.start();
+});

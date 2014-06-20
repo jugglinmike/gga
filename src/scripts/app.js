@@ -1,4 +1,7 @@
-define(["marionette"], function(Marionette) {
+define(["marionette",
+  "apps/welcome/welcome_app",
+  "jquery-ui","jquery-scrolltofixed","jquery-datatables","datejs","underscore.string", "spin","spin.jquery","tabletop","goog"
+  ], function(Marionette, WelcomeApp) {
   "use strict";
 
   var GeneralAssemblyApp = new Marionette.Application();
@@ -17,8 +20,24 @@ define(["marionette"], function(Marionette) {
   };
 
   GeneralAssemblyApp.on("initialize:after", function() {
+    var welcomeRouter = new WelcomeApp.Router({
+      region: GeneralAssemblyApp.mainRegion
+    });
+    this.listenTo(welcomeRouter, "bills:show", function(id) {
+      this.trigger("bills:show", id);
+    });
+    this.listenTo(welcomeRouter, "watchedbills:categories:list", function() {
+      this.trigger("watchedbills:categories:list");
+    });
+    this.listenTo(welcomeRouter, "members:list", function() {
+      this.trigger("members:list");
+    });
+  });
+
+  GeneralAssemblyApp.on("initialize:after", function() {
+    // TODO: Document the case where `Backbone.history` is not defined
     if (Backbone.history) {
-      require(["apps/welcome/welcome_app","apps/members/members_app","apps/watched_bills/watched_bills_app","apps/bills/bills_app","apps/about/about_app","entities/common"], function() {
+      require(["apps/members/members_app","apps/watched_bills/watched_bills_app","apps/bills/bills_app","apps/about/about_app","entities/common"], function() {
         Backbone.history.start();
 
         // if (GeneralAssemblyApp.getCurrentRoute() === "") {
